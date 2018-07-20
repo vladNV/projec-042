@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/error.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <title>Плохой запрос</title>
+</head>
+<body>
+<div class="container">
+    <div class="green-text number-page">
+        400
+    </div>
+    <div class="green-text">
+        <p>Запрос отправленный на сервер, было составлен не правильно. </p>
+        <p>Возможно случайно, возможно специально.</p>
+        <p>Если это делалось намерено, желательно не повторять таких ошибок больше!</p>
+        <div sec:authorize="isAnonymous()">
+            <p><a href="/authentication"> Нажмите сюда чтобы перейти на страницу авторизации.</a></p>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <p><a href="/management"> Нажмите сюда чтобы продолжить работу с приложением.</a></p>
+            <p>Продолжайте работу в нормальном режиме</p>
+        </div>
+        <br>
+        <p>По всем остальныем вопросам, обращайтесь к администратору сайта!</p>
+    </div>
+</div>
+</body>
+</html>

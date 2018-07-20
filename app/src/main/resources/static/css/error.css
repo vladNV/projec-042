@@ -1,0 +1,33 @@
+body {
+    background: #1b1e21;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: "Cambria Math", sans-serif;
+    font-kerning: auto;
+    font-stretch: normal;
+    font-size-adjust: 0.5;
+    line-height: 1.5;
+}
+
+a {
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+a:hover {
+    color: snow;
+}
+
+a:focus{
+    color: #fff3cd;
+}
+
+.green-text {
+    color: #28a745;
+    text-align: justify;
+}
+
+.number-page {
+    font-size: 76px;
+}
+

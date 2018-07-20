@@ -1,0 +1,65 @@
+body {
+    padding: 0;
+    margin: 0;
+    background: #f1f1f1;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #34302d;
+}
+
+#form-login{
+    margin-top: 15%;
+}
+
+#form-registration{
+    margin-top: 8%;
+}
+
+input[type=text],
+input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.container {
+    padding: 16px;
+}
+
+.bg {
+    background: url("/img/preview.jpg") no-repeat center;
+    background-size: cover;
+}
+
+.panel {
+    margin: 50px 0;
+}
+
+input {
+    color: #34302d;
+}
+
+.employee-panel, .trip-panel, .facility-panel, .requisition-panel, .complete-requisition-panel, .panel {
+    color: #6db33f;
+    font-family: "Times New Roman", serif;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 35px;
+    background: #34302d;
+}

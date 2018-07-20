@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/error.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <title>Страница не найдена</title>
+</head>
+<body>
+<div class="container">
+    <div class="green-text number-page">
+        404
+    </div>
+    <div class="green-text">
+        <p>Запрашиваемая вами страница, нажмите </p>
+        <div sec:authorize="isAnonymous()">
+            <p><a href="/authentication"> чтобы перейти на страницу авторизации.</a></p>
+            <p>Залогиньтесь, пожалуйста, прежде чем начать работу с приложением.</p>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <p><a href="/management"> чтобы продолжить работу с приложением.</a></p>
+            <p>Продолжайте работу в нормальном режиме</p>
+        </div>
+        <br>
+        <p>По всем остальныем вопросам, обращайтесь к администратору сайта!</p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <script type="module" th:src="@{/js/management-service.js}"></script>
+    <script type="text/javascript" th:src="@{/js/puppeteer.js}"></script>
+    <script type="text/javascript" async th:src="@{/js/common-requests.js}"></script>
+    <title>Management</title>
+</head>
+<body>
+    <div th:replace="fragments/menu :: headline"></div>
+    <hr>
+    <div class="container">
+        <h3>Форма №1 - Заявка на командировку</h3>
+        <div class="employee-panel panel">
+            <div class="form-row">
+                <div class="col">
+                    <label for="fullname"><i>ФИО сотрудника</i></label>
+                    <input class="form-control" autocomplete="false" placeholder="Искать по ФИО " required id="fullname" name="fullname"
+                           onchange="validateName(this);"/>
+                </div>
+
+                <div class="col">
+                    <label for="phone"><i>Номер телефона</i></label>
+                    <input class="form-control" autocomplete="false" required id="phone" name="phone" placeholder="Искать по телефону"
+                    onchange="validatePhone(this);"/>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col">
+                    <label for="passport"><i>Номер и серия паспорта</i></label>
+                    <input class="form-control" autocomplete="false" required id="passport" placeholder="Искать по номеру паспорта"
+                           onkeyup="validatePassport(this);" name="passport"/>
+                </div>
+
+                <div class="col">
+                    <label for="qualification"><i>Квалификация сотрудника</i></label>
+                    <input class="form-control" onkeyup="validateLength(this, 0, 100);" autocomplete="false" required id="qualification" name="qualification"/>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col">
+                    <label for="position"><i>Позиция в компании</i></label>
+                    <select onchange="validatePosition(this);" required class="form-control" name="position" id="position">
+                        <option selected value="DIRECTOR">Директор</option>
+                        <option selected value="MANAGER">Менеджер</option>
+                        <option selected value="BOOKER">Бухгалтер</option>
+                        <option selected value="OTHER">Другое</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="requisition-panel panel">
+            <div class="form-row">
+                <div class="col">
+                    <label for="description"><i>Описание заявки</i></label>
+                    <input class="form-control" autocomplete="false" required placeholder="Добавьте описание заявки тут"
+                           onkeyup="validateLength(this, 0, 200);" id="description" name="description"/>
+                </div>
+            </div>
+
+            <hr>
+
+            <label for="fromDate"><i>Дата начала</i></label>
+            <div class="form-row" id="fromDate"></div>
+
+            <label for="fromTime"><i>Время начала</i></label>
+            <div class="form-row" id="fromTime"></div>
+
+            <br>
+            <hr>
+            <br>
+
+            <label for="tillDate"><i>Дата окончания</i></label>
+            <div class="form-row" id="tillDate"></div>
+
+            <label for="tillTime"><i>Время окончания</i></label>
+            <div class="form-row" id="tillTime"></div>
+
+            <script type="module">
+                dateTime('from');
+                dateTime('till');
+            </script>
+
+        </div>
+        <hr>
+        <div class="facility-panel panel">
+            <div class="form-row">
+                <div class="col">
+                    <label for="title"><i>Название</i></label>
+                    <input class="form-control" required placeholder="Искать по названию" autocomplete="false"
+                           onkeyup="validateLength(this, 0, 100);" id="title" name="title"/>
+                </div>
+                <div class="col">
+                    <label for="direction"><i>Направление</i></label>
+                    <input class="form-control" required placeholder="Искать по направлениям" autocomplete="false"
+                           onkeyup="validateLength(this, 0, 150);" id="direction" name="direction"/>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="transport-panel panel">
+            <div class="form-row">
+                <div class="col">
+                    <label for="title"><i>Транспорт</i></label>
+                    <input class="form-control" required placeholder="Искать по названию транспорта" autocomplete="false"
+                           onkeyup="validateLength(this, 0, 100);" id="transport" name="transport"/>
+                </div>
+                <div class="col">
+                    <label for="type"><i>Тип</i></label>
+                    <select onchange="validateTransport(this);" required class="form-control" name="type" id="type">
+                        <option selected value="AUTO">Автомобиль</option>
+                        <option selected value="BUS">Автобус</option>
+                        <option selected value="TRAIN">Поезд</option>
+                        <option selected value="PLANE">Самолет</option>
+                        <option selected value="SHIP">Корабль</option>
+                        <option selected value="OTHER">Другое</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="trip-panel panel">
+            <div class="form-row">
+                <div class="col">
+                    <label for="rate"><i>Номер рейса</i></label>
+                    <input onkeyup="validateRateNumber(this);" class="form-control" required placeholder="Введите номер рейса" id="rate" name="rate"/>
+                </div>
+                <div class="col">
+                    <label for="price"><i>Цена билета</i></label>
+                    <input type="number" onkeyup="validatePrice(this);" class="form-control" required id="price" name="price"/>
+                </div>
+            </div>
+            <hr>
+            <label for="departureDate"><i>Дата отправления</i></label>
+            <div class="form-row" id="departureDate"></div>
+
+            <label for="departureTime"><i>Время отправления</i></label>
+            <div class="form-row" id="departureTime"></div>
+
+            <script type="module">dateTime('departure');</script>
+        </div>
+        <hr>
+        <div class="complete-requisition-panel panel">
+            <button type="button" onclick="prepareDataForSending();" class="bnt btn-success btn-lg">
+                Создать
+            </button>
+        </div>
+    </div>
+</body>
+</html>

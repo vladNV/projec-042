@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <script type="text/javascript" th:src="@{/js/puppeteer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common-requests.js}"></script>
+    <script type="text/javascript" th:src="@{/js/business-trip-service.js}"></script>
+    <title>Business trip</title>
+</head>
+<body>
+    <div th:replace="fragments/menu :: headline"></div>
+    <div class="col-sm-12">
+        <button type="button" onclick="downloadBusinessTrips();" class="btn btn-link">Экспортировать в excel</button>
+    </div>
+    <div class="col-sm-12">
+        <table class="table table-dark" style="font-size: 12px; color: #6db33f; background: #34302d;">
+            <thead>
+                <tr>
+                    <!-- need to populate with js -->
+                    <th scope="col">Ключ</th>
+                    <!--<th class="cell100 column1">Номер сотрудника</th>-->
+                    <th scope="col">ФИО</th>
+                    <th scope="col">Номер телефона</th>
+                    <!--<th class="cell100 column1">Квалификация</th>-->
+                    <th scope="col">Позиция</th>
+                    <!--<th class="cell100 column1">Описание</th>-->
+                    <th scope="col">Начало</th>
+                    <th scope="col">Конец</th>
+                    <th scope="col">Время отправки</th>
+                    <th scope="col">Номер рейса</th>
+                    <th scope="col">Цена</th>
+                    <th scope="col">Тип транспорта</th>
+                    <th scope="col">Транспорт</th>
+                    <th scope="col">Место командировки</th>
+                    <th scope="col">Направление</th>
+                </tr>
+            </thead>
+            <tbody id="data-body">
+            </tbody>
+        </table>
+    </div>
+    <div style="margin-top: 100px; padding: 0 10px;" class="btn-group" id="pagination"></div>
+    <script type="text/javascript">getBusinessTrips(1); getAmountOfBusinessTrips();</script>
+</body>
+</html>

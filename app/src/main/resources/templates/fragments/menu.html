@@ -1,0 +1,19 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    th:fragment="headline">
+    <div class="col-12" style="margin: 25px 0;">
+        Доброе пожаловать, <b id="username"></b>, вы авторизировались как <b id="role"></b>,
+        дата регистрации: <b id="registration"></b>, персональный номер #: <b id="uid"></b>
+    </div>
+    <div class="col-12" style="margin-bottom: 45px;">
+        <div>
+            <a th:href="@{/business}">Посмотреть все командировки</a>
+        </div>
+        <div>
+            <a th:href="@{/management}">Создать заявку на командировку</a>
+        </div>
+        <div style="margin: 30px 0;"></div>
+        <div>
+            <a th:href="@{/logout}">Выйти</a>
+        </div>
+    </div>
+</div>
