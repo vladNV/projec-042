@@ -28,7 +28,6 @@ const IS_EMPTY = function (val) {
 
     window.prepareDataForSending = function () {
         let requestJson = {
-
             // employee
             fullname: helper.fetch('fullname'),
             phone: helper.fetch('phone'),
