@@ -22,7 +22,6 @@ const MIN_CHARS_FOR_SEARHCING = 2;
 const IS_EMPTY = function (val) {
     return (!val || 0 === val.length);
 };
-
     window.searchBy = function (input, url) {
         if (input.value.length <= MIN_CHARS_FOR_SEARHCING) {
             return;
@@ -212,14 +211,16 @@ const IS_EMPTY = function (val) {
         return false;
     };
 
-    window.populateEmployeeByPhone = function (input, dlistId) {
+    window.populateEmployeePhone = function (e) {
+        let input = e.target;
         let val = input.value;
+        let list = input.getAttribute('list');
 
         if (val.length <= MIN_CHARS_FOR_SEARHCING) {
             return;
         }
 
-        let dlist = document.getElementById(dlistId).childNodes;
+        let dlist = document.getElementById(list).childNodes;
 
         Array.from(dlist).filter(d => d.value === val).forEach(d => {
             let qualification = document.getElementById('qualification');
@@ -240,16 +241,18 @@ const IS_EMPTY = function (val) {
         });
     };
 
-    window.populateEmployeeName = function (input, dlistId) {
+    window.populateEmployeeName = function (e) {
+        let input = e.target;
         let val = input.value;
+        let list = input.getAttribute('list');
 
         if (val.length <= MIN_CHARS_FOR_SEARHCING) {
             return;
         }
 
-        let dlist = document.getElementById(dlistId).childNodes;
+        let dlist = document.getElementById(list).childNodes;
 
-        Array.from(dlist).filter(d => d.value === val).forEach(d => {
+        Array.from(dlist).filter(d => d.value  === val).forEach(d => {
             let qualification = document.getElementById('qualification');
             let passport = document.getElementById('passport');
             let phone = document.getElementById('phone');
@@ -268,14 +271,17 @@ const IS_EMPTY = function (val) {
         });
     };
 
-    window.populateEmployeePassport = function (input, dlistId) {
+    window.populateEmployeePassport = function (e) {
+        let input = e.target;
         let val = input.value;
+        let list = input.getAttribute('list');
+
 
         if (val.length <= MIN_CHARS_FOR_SEARHCING) {
             return;
         }
 
-        let dlist = document.getElementById(dlistId).childNodes;
+        let dlist = document.getElementById(list).childNodes;
 
         Array.from(dlist).filter(d => d.value === val).forEach(d => {
             let qualification = document.getElementById('qualification');
@@ -296,14 +302,16 @@ const IS_EMPTY = function (val) {
         });
     };
 
-    window.populateFacilityLocation = function (input, dlistId) {
+    window.populateFacilityLocation = function (e) {
+        let input = e.target;
         let val = input.value;
+        let list = input.getAttribute('list');
 
         if (val.length <= MIN_CHARS_FOR_SEARHCING) {
             return;
         }
 
-        let dlist = document.getElementById(dlistId).childNodes;
+        let dlist = document.getElementById(list).childNodes;
 
         Array.from(dlist).filter(d => d.value === val).forEach(d => {
             let direction = document.getElementById('direction');
@@ -314,18 +322,20 @@ const IS_EMPTY = function (val) {
         });
     };
 
-    window.populateFacilityDirection = function (input, dlistId) {
+    window.populateFacilityDirection = function (e) {
+        let input = e.target;
         let val = input.value;
+        let list = input.getAttribute('list');
 
         if (val.length <= MIN_CHARS_FOR_SEARHCING) {
             return;
         }
 
-        let dlist = document.getElementById(dlistId).childNodes;
+        let dlist = document.getElementById(list).childNodes;
 
         Array.from(dlist).filter(d => d.value === val).forEach(d => {
-            let location = document.getElementById('location');
-            location.value = d.getAttribute('location');
+            let location = document.getElementById('title');
+            location.value = d.getAttribute('title');
 
             validateLength(d, 0, 150);
             validateLength(location, 0, 100);
@@ -442,7 +452,7 @@ const IS_EMPTY = function (val) {
     function additionalValidation(requestJson) {
         let errors = [];
 
-        if (IS_EMPTY(requestJson.name) || !NAME.test(requestJson.name)) {
+        if (IS_EMPTY(requestJson.fullname) || !NAME.test(requestJson.fullname)) {
             errors.push('Неправильно введено имя!');
         }
 
@@ -521,3 +531,9 @@ const IS_EMPTY = function (val) {
         }
         helper.setMinMax(1, endDay, day)
     }
+
+    document.querySelector('input[list="fullname-data"]').addEventListener('input', populateEmployeeName);
+    document.querySelector('input[list="phone-data"]').addEventListener('input', populateEmployeePhone);
+    document.querySelector('input[list="passport-data"]').addEventListener('input', populateEmployeePassport);
+    document.querySelector('input[list="title-data"]').addEventListener('input', populateFacilityLocation);
+    document.querySelector('input[list="direction-data"]').addEventListener('input', populateFacilityDirection);

@@ -20,8 +20,7 @@
                 <div class="col">
                     <label for="fullname"><i>ФИО сотрудника</i></label>
                     <input class="form-control" autocomplete="false" placeholder="Искать по ФИО " required id="fullname" name="fullname"
-                           onchange="validateName(this);" onkeydown="searchBy(this, '/employee/search/name/');"
-                           oninput="populateEmployeeName(this, 'fullname-data');" list="fullname-data"/>
+                           onkeyup="validateName(this);" onkeydown="searchBy(this, '/employee/search/name/');" list="fullname-data"/>
                     <datalist id="fullname-data"></datalist>
                 </div>
 
@@ -29,7 +28,7 @@
                     <label for="phone"><i>Номер телефона</i></label>
                     <input class="form-control" autocomplete="false" onkeydown="searchBy(this, '/employee/search/phone/');"
                            required id="phone" name="phone" placeholder="Искать по телефону"
-                           onchange="validatePhone(this);"  oninput="populateEmployeeByPhone(this, 'phone-data');" list="phone-data"/>
+                           onkeyup="validatePhone(this);" list="phone-data"/>
                     <datalist id="phone-data"></datalist>
                 </div>
             </div>
@@ -39,21 +38,20 @@
                     <label for="passport"><i>Номер и серия паспорта</i></label>
                     <input class="form-control" autocomplete="false" required id="passport"
                            placeholder="Искать по номеру паспорта" onkeydown="searchBy(this, '/employee/search/passport/');"
-                           onchange="validatePassport(this);" name="passport" oninput="populateEmployeePassport(this, 'passport-data');"
-                           list="passport-data"/>
+                           onkeyup="validatePassport(this);" name="passport" list="passport-data"/>
                     <datalist id="passport-data"></datalist>
                 </div>
 
                 <div class="col">
                     <label for="qualification"><i>Квалификация сотрудника</i></label>
-                    <input class="form-control" onchange="validateLength(this, 0, 100);" autocomplete="false" required id="qualification" name="qualification"/>
+                    <input class="form-control" onkeyup="validateLength(this, 0, 100);" autocomplete="false" required id="qualification" name="qualification"/>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="col">
                     <label for="position"><i>Позиция в компании</i></label>
-                    <select onchange="validatePosition(this);" required class="form-control" name="position" id="position">
+                    <select onkeyup="validatePosition(this);" required class="form-control" name="position" id="position">
                         <option selected value="DIRECTOR">Директор</option>
                         <option selected value="MANAGER">Менеджер</option>
                         <option selected value="BOOKER">Бухгалтер</option>
@@ -68,7 +66,7 @@
                 <div class="col">
                     <label for="description"><i>Описание заявки</i></label>
                     <input class="form-control" autocomplete="false" required placeholder="Добавьте описание заявки тут"
-                           onchange="validateLength(this, 0, 200);" id="description" name="description"/>
+                           onkeyup="validateLength(this, 0, 200);" id="description" name="description"/>
                 </div>
             </div>
 
@@ -102,9 +100,8 @@
                 <div class="col">
                     <label for="title"><i>Название</i></label>
                     <input class="form-control" required placeholder="Искать по названию" autocomplete="false"
-                           onchange="validateLength(this, 0, 100);" id="title" name="title"
+                           onkeyup="validateLength(this, 0, 100);" id="title" name="title"
                            onkeydown="searchBy(this, '/location/search/name/');"
-                           oninput="populateFacilityLocation(this, 'title-data');"
                            list="title-data"/>
                     <datalist id="title-data"></datalist>
                 </div>
@@ -112,8 +109,7 @@
                     <label for="direction"><i>Направление</i></label>
                     <input class="form-control" required placeholder="Искать по направлениям" autocomplete="false"
                            onkeydown="searchBy(this, '/location/search/direction/');"
-                           onchange="validateLength(this, 0, 150);" id="direction" name="direction"
-                           oninput="populateFacilityDirection(this, 'direction-data');"
+                           onkeyup="validateLength(this, 0, 150);" id="direction" name="direction"
                            list="direction-data"/>
                     <datalist id="direction-data"></datalist>
                 </div>
@@ -129,7 +125,7 @@
                 </div>
                 <div class="col">
                     <label for="type"><i>Тип</i></label>
-                    <select onchange="validateTransport(this);" required class="form-control" name="type" id="type">
+                    <select onkeyup="validateTransport(this);" required class="form-control" name="type" id="type">
                         <option selected value="AUTO">Автомобиль</option>
                         <option selected value="BUS">Автобус</option>
                         <option selected value="TRAIN">Поезд</option>
@@ -145,11 +141,11 @@
             <div class="form-row">
                 <div class="col">
                     <label for="rate"><i>Номер рейса</i></label>
-                    <input onchange="validateRateNumber(this);" class="form-control" required placeholder="Введите номер рейса" id="rate" name="rate"/>
+                    <input onkeyup="validateRateNumber(this);" class="form-control" required placeholder="Введите номер рейса" id="rate" name="rate"/>
                 </div>
                 <div class="col">
                     <label for="price"><i>Цена билета</i></label>
-                    <input type="number" onchange="validatePrice(this);" class="form-control" required id="price" name="price"/>
+                    <input type="number" onkeyup="validatePrice(this);" class="form-control" required id="price" name="price"/>
                 </div>
             </div>
             <hr>
