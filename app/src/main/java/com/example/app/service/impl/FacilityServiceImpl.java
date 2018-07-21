@@ -23,12 +23,12 @@ public class FacilityServiceImpl implements FacilityService {
 
     @Override
     public List<Facility> findFacilitiesByTitle(String title) {
-        return ListUtils.emptyIfNull(facilityRepository.findByTitle(title));
+        return ListUtils.emptyIfNull(facilityRepository.findByTitleIgnoreCaseContaining(title));
     }
 
     @Override
     public List<Facility> findFacilitiesByDirection(String direction) {
-        return ListUtils.emptyIfNull(facilityRepository.findByDirection(direction));
+        return ListUtils.emptyIfNull(facilityRepository.findByDirectionIgnoreCaseContaining(direction));
     }
 
 }

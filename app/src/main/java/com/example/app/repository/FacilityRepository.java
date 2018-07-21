@@ -8,10 +8,8 @@ import java.util.List;
 
 public interface FacilityRepository extends JpaRepository<Facility, Long> {
 
-    @Query(name = "SELECT * FROM t_facility WHERE title LIKE ?1%", nativeQuery = true)
-    List<Facility> findByDirection(String direction);
+    List<Facility> findByDirectionIgnoreCaseContaining(String direction);
 
-    @Query(name = "SELECT * FROM t_facility WHERE direction LIKE ?1%", nativeQuery = true)
-    List<Facility> findByTitle(String title);
+    List<Facility> findByTitleIgnoreCaseContaining(String title);
 
 }
