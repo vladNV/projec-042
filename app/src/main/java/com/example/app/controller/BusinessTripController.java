@@ -41,21 +41,6 @@ public class BusinessTripController {
         return Result.response(tripService.retrieveBusinessTrips(Integer.valueOf(pageNumber)), HttpStatus.OK);
     }
 
-    @Deprecated
-    @GetMapping(value = "/business/trip/{number}/{filter}", produces = "application/json")
-    @ResponseBody
-    public ResponseEntity<List<BusinessTrip>> showAll(@PathVariable(name = "number") String pageNumber,
-                                                      @PathVariable(name = "filter") String filter) {
-        if (StringUtils.isBlank(pageNumber) || !pageNumber.matches(Regex.NUMBER.pattern())) {
-            return Result.response(Collections.emptyList(), HttpStatus.BAD_REQUEST);
-        }
-
-        if (StringUtils.isBlank(filter)) {
-            return Result.response(tripService.retrieveBusinessTrips(Integer.valueOf(pageNumber)), HttpStatus.OK);
-        }
-
-        return Result.response(tripService.retrieveBusinessTrips(Integer.valueOf(pageNumber), filter), HttpStatus.OK);
-    }
 
     @PostMapping(Routes.REQUISITION_CREATION)
     @ResponseBody
@@ -80,7 +65,7 @@ public class BusinessTripController {
         try {
             tripService.createNewBusinessTrip(newBusinessTrip);
         } catch (UniquieException e) {
-            return Result.response(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+            return Result.response(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
         return Result.response(HttpStatus.OK);

@@ -2,12 +2,14 @@ package com.example.app.service.impl;
 
 import com.example.app.converter.BusinessTripConverter;
 import com.example.app.domain.Employee;
+import com.example.app.domain.EmployeeFacility;
 import com.example.app.domain.Facility;
 import com.example.app.domain.Requisition;
 import com.example.app.domain.Transport;
 import com.example.app.domain.Trip;
 import com.example.app.model.BusinessTrip;
 import com.example.app.repository.BusinessTripRepository;
+import com.example.app.repository.EmployeeFacilityRepository;
 import com.example.app.repository.TripRepository;
 import com.example.app.service.EmployeeService;
 import com.example.app.service.FacilityService;
@@ -20,17 +22,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 
 import javax.transaction.Transactional;
-import javax.validation.constraints.NotEmpty;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-@Transactional
+import static javax.transaction.Transactional.TxType.REQUIRES_NEW;
+
 @Component
+@Transactional(rollbackOn = UniquieException.class, value = REQUIRES_NEW)
 public class TripServiceImpl implements TripService {
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle("settings");
     private static final Integer COUNT = Integer.valueOf(resourceBundle.getObject("count_on_page").toString());
@@ -53,19 +56,21 @@ public class TripServiceImpl implements TripService {
     @Autowired
     private BusinessTripRepository bussinesTripRepository;
 
+    @Autowired
+    private EmployeeFacilityRepository employeeFacilityRepository;
+
 
     @Override
-    @Transactional
     public void createNewBusinessTrip(@NonNull BusinessTrip businessTrip) {
         Employee employee = getStoredEmployeeOrElseNew(BusinessTripConverter.toEmployee(businessTrip));
         Facility facility = getStoredFacility(BusinessTripConverter.toFacility(businessTrip));
 
-        saveRelationshipWithFacility(facility, employee);
-        saveRelationshipWithRequestion(BusinessTripConverter.toRequisition(businessTrip), employee);
-
         Trip trip = BusinessTripConverter.toTrip(businessTrip);
         saveRelationShipWithTrip(trip, employee);
         takeTransport(BusinessTripConverter.toTransport(businessTrip), trip);
+
+        saveRelationshipWithFacility(facility, employee);
+        saveRelationshipWithRequestion(BusinessTripConverter.toRequisition(businessTrip), employee);
 
         createNewTrip(trip);
     }
@@ -85,11 +90,11 @@ public class TripServiceImpl implements TripService {
     }
 
     private void saveRelationshipWithFacility(Facility facility, Employee employee) {
-        List<Employee> list = new ArrayList<>();
-        list.add(employee);
+        EmployeeFacility employeeFacility = new EmployeeFacility();
+        employeeFacility.setEmployee(employee);
+        employeeFacility.setFacility(facility);
 
-        facility.setEmployees(list);
-        facilityService.putFacility(facility);
+        employeeFacilityRepository.save(employeeFacility);
     }
 
     private void saveRelationshipWithRequestion(Requisition requisition, Employee employee) {
@@ -107,7 +112,6 @@ public class TripServiceImpl implements TripService {
         trip.setEmployee(employee);
     }
 
-
     @Override
     public void createNewTrip(@NonNull Trip trip) {
         tripRepository.save(trip);
@@ -117,11 +121,6 @@ public class TripServiceImpl implements TripService {
     public List<BusinessTrip> retrieveAllBusinessTripsBySort() {
         return ListUtils.emptyIfNull(bussinesTripRepository.findAll().stream()
                 .map(BusinessTripConverter::toBusinessTrip).collect(Collectors.toList()));
-    }
-
-    @Override
-    public List<BusinessTrip> retrieveBusinessTrips(@NonNull final Integer pageNumber, @NotEmpty final String filter) {
-        return null;
     }
 
     @Override

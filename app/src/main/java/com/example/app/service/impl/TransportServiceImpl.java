@@ -17,11 +17,6 @@ public class TransportServiceImpl implements TransportService {
     private TransportRepository transportRepository;
 
     @Override
-    public List<Transport> getAllTransports() {
-        return ListUtils.emptyIfNull(transportRepository.findAll());
-    }
-
-    @Override
     public void putTransport(@NonNull Transport transport) {
         transportRepository.save(transport);
     }

@@ -26,22 +26,23 @@ const IS_EMPTY = function (val) {
 /**
  * @return {boolean}
  */
-const DATE_IS_EMPTY = function (date) {
-  Array.from(date.keys()).forEach(j => {
+function DATE_IS_EMPTY(date) {
+  let count = 0;
+  Array.from(Object.keys(date)).forEach(j => {
      let boolean = IS_EMPTY(date[j]);
-     if (boolean == true) {
-         return true;
+     if (boolean) {
+         count++;
      }
   });
-  return false;
-};
+  return !(count == 0);
+}
 
     window.searchBy = function (input, url) {
         if (input.value.length <= MIN_CHARS_FOR_SEARHCING) {
             return;
         }
         let puppet = new Puppet();
-        puppet.fetch(url + input.value).then(set => populateFoundItems(set, input)).catch(err => err);
+        puppet.fetch(url + input.value).then(set => populateFoundItems(set, input)).catch(err => JSON.parse(err).message);
     };
 
     window.prepareDataForSending = function () {
@@ -100,8 +101,8 @@ const DATE_IS_EMPTY = function (date) {
         }
         let flow = new Puppet();
         flow.push(CREATE_NEW_REQUEST ,requestJson).then(e => alert('Заявка успешно создана!\n ' +
-            'Вы можете посмотреть все заявки, перейдя по ссылке в меню выше!')).catch(err => alert(err))
-
+            'Вы можете посмотреть все заявки, перейдя по ссылке в меню выше!')).catch(err => alert(err.message));
+        window.location.replace("/business");
     };
 
     window.dateTime = function (id) {
@@ -490,15 +491,15 @@ const DATE_IS_EMPTY = function (date) {
             errors.push('Описание не может быть пустым!');
         }
 
-        if (IS_EMPTY(requestJson.fromDate)) {
+        if (DATE_IS_EMPTY(requestJson.fromDate)) {
             errors.push('Дата начала не может быть пустой!');
         }
 
-        if (IS_EMPTY(requestJson.tillDate)) {
+        if (DATE_IS_EMPTY(requestJson.tillDate)) {
             errors.push('Дата конца не может быть пустой!');
         }
 
-        if (IS_EMPTY(requestJson.departure)) {
+        if (DATE_IS_EMPTY(requestJson.departure)) {
             errors.push('Дата отправления не может быть пустой!');
         }
 

@@ -8,8 +8,6 @@ import java.util.List;
 @Service
 public interface TransportService {
 
-    List<Transport> getAllTransports();
-
     void putTransport(Transport transport);
 
 }

@@ -6,7 +6,7 @@ whoAmI();
 
     function whoAmI() {
         let puppet = new Puppet();
-        puppet.fetch(WHO_AM_I).then(json => populateIdentity(json)).catch(error => alert(error));
+        puppet.fetch(WHO_AM_I).then(json => populateIdentity(json)).catch(error => alert(JSON.parse(error).message));
     }
 
     function populateIdentity(json) {
