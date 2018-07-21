@@ -1,10 +1,10 @@
 class Puppet {
 
-    fetch(method, url) {
+    fetch(url) {
         return new Promise(function (resolve, reject) {
             const xhr = new XMLHttpRequest();
 
-            xhr.open(method, url, true);
+            xhr.open('GET', url, true);
 
             xhr.onload = function() {
                 if (this.status != 200) {
@@ -20,18 +20,16 @@ class Puppet {
                     return resolve(this.response);
                 }
             };
+
             xhr.send();
         });
     }
 
-    push(method, url, json) {
-        if (method.toUpperCase() === 'GET') {
-            return;
-        }
+    push(url, json) {
         return new Promise(function (resolve, reject) {
             const xhr = new XMLHttpRequest();
 
-            xhr.open(method, url, true);
+            xhr.open('POST', url, true);
 
             xhr.onload = function () {
                 if (this.status != 200) {

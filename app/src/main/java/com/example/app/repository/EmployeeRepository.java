@@ -8,12 +8,11 @@ import java.util.List;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-    @Query(name = "SELECT * FROM t_employee WHERE fullname LIKE %?1", nativeQuery = true)
-    List<Employee> findByFullname(String fullname);
+    List<Employee> findByFullnameIgnoreCaseContaining(String fullname);
 
-    @Query(name = "SELECT * FROM t_employee WHERE passport LIKE %?1", nativeQuery = true)
-    List<Employee> findByPassport(String passport);
+//    @Query("SELECT e FROM Employee e WHERE e.passport LIKE %:passport%")
+    List<Employee> findByPassportIgnoreCaseContaining(String passport);
 
-    @Query(name = "SELECT * FROM t_employee WHERE phone LIKE %?1", nativeQuery = true)
-    List<Employee> findByPhone(String phone);
+//    @Query("SELECT e FROM Employee e WHERE e.phone LIKE %:fullname%")
+    List<Employee> findByPhoneIgnoreCaseContaining(String phone);
 }

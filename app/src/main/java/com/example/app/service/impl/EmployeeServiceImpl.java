@@ -24,16 +24,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> getEmployeesByFullname(@NotEmpty String name) {
-        return ListUtils.emptyIfNull(employeeRepository.findByFullname(name));
+        return ListUtils.emptyIfNull(employeeRepository.findByFullnameIgnoreCaseContaining(name));
     }
 
     @Override
     public List<Employee> getEmployeesByPhone(String phone) {
-        return ListUtils.emptyIfNull(employeeRepository.findByPhone(phone));
+        return ListUtils.emptyIfNull(employeeRepository.findByPhoneIgnoreCaseContaining(phone));
     }
 
     @Override
     public List<Employee> getEmployeesByPassportNumber(String passport) {
-        return ListUtils.emptyIfNull(employeeRepository.findByPassport(passport));
+        return ListUtils.emptyIfNull(employeeRepository.findByPassportIgnoreCaseContaining(passport));
     }
 }
