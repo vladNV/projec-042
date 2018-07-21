@@ -102,7 +102,6 @@ function DATE_IS_EMPTY(date) {
         let flow = new Puppet();
         flow.push(CREATE_NEW_REQUEST ,requestJson).then(e => alert('Заявка успешно создана!\n ' +
             'Вы можете посмотреть все заявки, перейдя по ссылке в меню выше!')).catch(err => alert(err.message));
-        window.location.replace("/business");
     };
 
     window.dateTime = function (id) {
