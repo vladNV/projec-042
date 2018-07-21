@@ -15,8 +15,6 @@ public interface TripService {
 
     List<BusinessTrip> retrieveAllBusinessTripsBySort();
 
-    List<BusinessTrip> retrieveBusinessTrips(Integer pageNumber, String filter);
-
     List<BusinessTrip> retrieveBusinessTrips(Integer pageNubmer);
 
     Long count();

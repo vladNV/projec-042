@@ -9,11 +9,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.ValidationException;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.Arrays;
+import java.util.List;
 
 @Getter
 @Setter
@@ -92,6 +96,9 @@ public class BusinessTrip {
     private JsDate departure;
 
     // data time from js
+    private static final int MAX_YEAR = 2100;
+    private static final int MIN_YEAR = 2018;
+
     @Getter
     @Setter
     public class JsDate {
@@ -117,6 +124,10 @@ public class BusinessTrip {
     }
 
     public void clean() {
+        validateDate(fromDate);
+        validateDate(tillDate);
+        validateDate(departure);
+
         this.from =
                 LocalDateTime.of(
                 this.fromDate.year, Month.of(this.fromDate.month), this.fromDate.day,
@@ -131,6 +142,58 @@ public class BusinessTrip {
                 this.departure.hour, this.departure.minute);
     }
 
+    private void validateDate(JsDate jsDate) {
+        validateDate(jsDate.year, jsDate.month, jsDate.day, jsDate.hour, jsDate.minute);
+    }
+
+    private void validateDate(int year, int month, int day, int hour, int minute) {
+        validateYear(year);
+        checkDayAndMonth(day, month, year);
+        checkMinuteAndHour(hour, minute);
+    }
+
+    private void checkMinuteAndHour(int hour, int minute) {
+        if (hour < 0 || hour > 23 || minute < 0 || minute > 59) {
+            throw new ValidationException("Incorrect minutes (and) or hours!");
+        }
+    }
+
+    private void checkDayAndMonth(int day, int month, int year) {
+        if (month > 12 || month < 1) {
+            throw new ValidationException("Incorrect month!");
+        }
+
+        List<Integer> month31 = Arrays.asList(1, 3, 5, 7, 8, 10, 12);
+        List<Integer> month30 = Arrays.asList(4, 6, 9, 11);
+        int february = 2;
+
+        if (month31.contains(month) && !isCorrectDay(day, 31)) {
+            throw new ValidationException("Incorrect day!");
+        }
+
+        if (month30.contains(month) && !isCorrectDay(day, 30)) {
+            throw new ValidationException("Incorrect day!");
+        }
+
+        if (month == february && !isCorrectDay(day, isLeapYear(year) ? 29 : 28)) {
+            throw new ValidationException("Incorrect day!");
+        }
+    }
+
+    private boolean isCorrectDay(int day, int max) {
+        return day > 0 && day <= max;
+    }
+
+    private boolean isLeapYear(int year) {
+        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    }
+
+    private void validateYear(int year) {
+        if (year < MIN_YEAR || year > MAX_YEAR) {
+            throw new ValidationException("Incorrect year!");
+        }
+    }
+
     @Deprecated
     public LocalDateTime during() {
         return till
@@ -140,6 +203,4 @@ public class BusinessTrip {
                 .minusHours(from.getHour())
                 .minusMinutes(from.getMinute());
     }
-
-
 }

@@ -33,7 +33,7 @@ public class BusinessTripView {
     private Integer position;
     private String qualification;
 
-    @Column(name = "request_id")
+    @Column(name = "requesition_id")
     private Long requestId;
 
     private String description;

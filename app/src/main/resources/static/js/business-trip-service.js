@@ -13,12 +13,12 @@ const COUNT_ON_ONE_PAGE = 10;
 
     function getAmountOfBusinessTrips() {
         let puppet = new Puppet();
-        puppet.fetch(GET_AMOUNT_OF_BUSINESS_TRIPS).then(count => createPages(count)).catch(err => alert(err));
+        puppet.fetch(GET_AMOUNT_OF_BUSINESS_TRIPS).then(count => createPages(count)).catch(err => alert(JSON.parse(err).message));
     }
 
     function getBusinessTrips(number) {
         let puppet = new Puppet();
-        puppet.fetch(BUSINESS_TRIPS + number).then(json => populateBusinessTrips(json)).catch(err => alert(err));
+        puppet.fetch(BUSINESS_TRIPS + number).then(json => populateBusinessTrips(json)).catch(err => alert(JSON.parse(err).message));
     }
 
     function downloadBusinessTrips() {

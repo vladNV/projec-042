@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,13 +45,8 @@ public class Facility {
     @Column(name = "direction", nullable = false, length = 45)
     private String direction;
 
-    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "Employee_Facility",
-            joinColumns = {@JoinColumn(name = "facility_id")},
-            inverseJoinColumns = {@JoinColumn(name = "employee_id")}
-    )
-    private List<Employee> employees = new ArrayList<>();
+    @OneToMany (mappedBy = "facility", fetch = FetchType.LAZY)
+    private List<EmployeeFacility> employeeFacilities = new ArrayList<>();
 
     public static Facility of(String title, String direction) {
         return new Facility(null, title, direction, null);

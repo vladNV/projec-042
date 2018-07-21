@@ -92,7 +92,7 @@ public class BusinessTripConverter {
     public static BusinessTrip toBusinessTrip(BusinessTripView businessTripView) {
         BusinessTrip businessTrip = new BusinessTrip();
 
-        businessTrip.setPrime(businessTripView.getPrime());
+        businessTrip.setPrime(Optional.ofNullable(businessTripView.getPrime()).orElse(0L));
 
         businessTrip.setTransportTitle(businessTripView.getTransportName());
         businessTrip.setTransportType(TransportType.values()[businessTripView.getTransportType()]);
