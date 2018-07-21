@@ -22,6 +22,20 @@ const MIN_CHARS_FOR_SEARHCING = 2;
 const IS_EMPTY = function (val) {
     return (!val || 0 === val.length);
 };
+
+/**
+ * @return {boolean}
+ */
+const DATE_IS_EMPTY = function (date) {
+  Array.from(date.keys()).forEach(j => {
+     let boolean = IS_EMPTY(date[j]);
+     if (boolean == true) {
+         return true;
+     }
+  });
+  return false;
+};
+
     window.searchBy = function (input, url) {
         if (input.value.length <= MIN_CHARS_FOR_SEARHCING) {
             return;

@@ -1,21 +1,31 @@
 package com.example.app.service.impl;
 
 import com.example.app.converter.BusinessTripConverter;
-import com.example.app.domain.*;
+import com.example.app.domain.Employee;
+import com.example.app.domain.Facility;
+import com.example.app.domain.Requisition;
+import com.example.app.domain.Transport;
+import com.example.app.domain.Trip;
 import com.example.app.model.BusinessTrip;
 import com.example.app.repository.BusinessTripRepository;
 import com.example.app.repository.TripRepository;
-import com.example.app.service.*;
+import com.example.app.service.EmployeeService;
+import com.example.app.service.FacilityService;
+import com.example.app.service.RequisitionService;
+import com.example.app.service.TransportService;
+import com.example.app.service.TripService;
+import com.example.app.service.exception.UniquieException;
 import org.apache.commons.collections4.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -47,23 +57,54 @@ public class TripServiceImpl implements TripService {
     @Override
     @Transactional
     public void createNewBusinessTrip(@NonNull BusinessTrip businessTrip) {
-        Employee employee = BusinessTripConverter.toEmployee(businessTrip);
-        Requisition requisition = BusinessTripConverter.toRequisition(businessTrip);
-        Facility facility = BusinessTripConverter.toFacility(businessTrip);
-        Transport transport = BusinessTripConverter.toTransport(businessTrip);
+        Employee employee = getStoredEmployeeOrElseNew(BusinessTripConverter.toEmployee(businessTrip));
+        Facility facility = getStoredFacility(BusinessTripConverter.toFacility(businessTrip));
+
+        saveRelationshipWithFacility(facility, employee);
+        saveRelationshipWithRequestion(BusinessTripConverter.toRequisition(businessTrip), employee);
+
         Trip trip = BusinessTripConverter.toTrip(businessTrip);
+        saveRelationShipWithTrip(trip, employee);
+        takeTransport(BusinessTripConverter.toTransport(businessTrip), trip);
 
-        requisition.setEmployee(employee);
-        facility.setEmployee(employee);
-
-        trip.setEmployee(employee);
-        trip.setTransport(transport);
-
-        facilityService.putFacility(facility);
-        requisitionService.createNewRequisition(requisition);
-        employeeService.createNewEmployee(employee);
-        transportService.putTransport(transport);
         createNewTrip(trip);
+    }
+
+    private Employee getStoredEmployeeOrElseNew(Employee employee) {
+        return Optional.ofNullable(employeeService.getByPassport(employee.getPassport())).orElse(employee);
+    }
+
+    private Facility getStoredFacility(Facility facility) {
+        return Optional.ofNullable(facilityService.getStoredFacility(facility.getDirection(), facility.getTitle())).orElse(facility);
+    }
+
+    private void checkRateNumberForUniqueness(String rateNumber) {
+        if (tripRepository.exists(rateNumber) == 1) {
+            throw new UniquieException("Номер #" + rateNumber + " уже существует !");
+        }
+    }
+
+    private void saveRelationshipWithFacility(Facility facility, Employee employee) {
+        List<Employee> list = new ArrayList<>();
+        list.add(employee);
+
+        facility.setEmployees(list);
+        facilityService.putFacility(facility);
+    }
+
+    private void saveRelationshipWithRequestion(Requisition requisition, Employee employee) {
+        requisition.setEmployee(employee);
+        requisitionService.createNewRequisition(requisition);
+    }
+
+    private void takeTransport(Transport transport, Trip trip) {
+        trip.setTransport(transport);
+        transportService.putTransport(transport);
+    }
+
+    private void saveRelationShipWithTrip(Trip trip, Employee employee) {
+        checkRateNumberForUniqueness(trip.getRateNumber());
+        trip.setEmployee(employee);
     }
 
 
@@ -85,7 +126,8 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public List<BusinessTrip> retrieveBusinessTrips(@NonNull final Integer pageNubmer) {
-        return ListUtils.emptyIfNull(bussinesTripRepository.findAll(new PageRequest(COUNT * (pageNubmer - 1) / COUNT, COUNT))
+        return ListUtils.emptyIfNull(bussinesTripRepository.findAll(new PageRequest(COUNT *
+                (pageNubmer - 1) / COUNT, COUNT))
                 .stream().map(BusinessTripConverter::toBusinessTrip).collect(Collectors.toList()));
     }
 

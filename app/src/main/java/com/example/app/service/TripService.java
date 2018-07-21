@@ -2,7 +2,6 @@ package com.example.app.service;
 
 import com.example.app.domain.Trip;
 import com.example.app.model.BusinessTrip;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

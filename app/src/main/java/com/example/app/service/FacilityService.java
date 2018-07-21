@@ -14,4 +14,6 @@ public interface FacilityService {
 
     List<Facility> findFacilitiesByDirection(String direction);
 
+    Facility getStoredFacility(String direction, String title);
+
 }

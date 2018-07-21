@@ -9,5 +9,7 @@ import java.util.List;
 
 public interface TripRepository extends JpaRepository<Trip, Long> {
 
+    @Query(value = "SELECT EXISTS (SELECT 1 FROM t_trip WHERE trip_code = ?1)", nativeQuery = true)
+    Long exists(String rateNumber);
 
 }

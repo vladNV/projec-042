@@ -31,4 +31,9 @@ public class FacilityServiceImpl implements FacilityService {
         return ListUtils.emptyIfNull(facilityRepository.findByDirectionIgnoreCaseContaining(direction));
     }
 
+    @Override
+    public Facility getStoredFacility(String direction, String title) {
+        return facilityRepository.findByDirectionAndTitle(direction, title);
+    }
+
 }

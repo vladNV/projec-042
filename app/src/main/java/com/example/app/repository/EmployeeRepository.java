@@ -13,4 +13,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findByPassportIgnoreCaseContaining(String passport);
 
     List<Employee> findByPhoneIgnoreCaseContaining(String phone);
+
+    @Query(value = "SELECT * FROM t_employee WHERE passport = ?1", nativeQuery = true)
+    Employee findByPassport(String passport);
+
 }

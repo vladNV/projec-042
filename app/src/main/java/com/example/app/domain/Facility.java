@@ -1,8 +1,25 @@
 package com.example.app.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "T_FACILITY")
@@ -11,7 +28,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = {"direction","title"})
 public class Facility {
 
     @Id
@@ -27,9 +44,16 @@ public class Facility {
     @Column(name = "direction", nullable = false, length = 45)
     private String direction;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "Employee_Facility",
+            joinColumns = {@JoinColumn(name = "facility_id")},
+            inverseJoinColumns = {@JoinColumn(name = "employee_id")}
+    )
+    private List<Employee> employees = new ArrayList<>();
 
+    public static Facility of(String title, String direction) {
+        return new Facility(null, title, direction, null);
+    }
 
 }

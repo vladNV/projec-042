@@ -45,7 +45,7 @@ const COUNT_ON_ONE_PAGE = 10;
             // cell(trip.description);
             cell(trip.from, tr);
             cell(trip.till, tr);
-            cell(trip.departureDate, tr);
+            cell(trip.phone, tr);
             cell(trip.rate, tr);
             cell(trip.price, tr);
             cell(trip.type, tr);

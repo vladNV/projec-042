@@ -16,4 +16,6 @@ public interface EmployeeService {
 
     List<Employee> getEmployeesByPassportNumber(String passport);
 
+    Employee getByPassport(String passport);
+
 }

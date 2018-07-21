@@ -32,7 +32,7 @@ public class Requisition {
     @DateTimeFormat
     private LocalDateTime till;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
