@@ -8,13 +8,14 @@ const CREATE_NEW_REQUEST = '/business/creation';
 
 // regexps
 const NAME = /^[A-Za-zА-Яа-яё\-\s]+$/;
-const PHONE = /\+?[\d\-]{7,15}/;
+const PHONE = /^\+?[\d\-]{7,15}$/;
 const PASSPORT = /^[\d]{8}$/;
 const POSITION = /(DIRECTOR|BOOKER|MANAGER|OTHER)/;
 const TRANSPORT = /(AUTO|PLANE|SHIP|TRAIN|BUS|OTHER)/;
 const RATE_NUMBER = /^[\w]{1,45}$/;
 const PRICE = /^[\d]{1,15}$/;
 
+const MIN_CHARS_FOR_SEARHCING = 2;
 /**
  * @return {boolean}
  */
@@ -22,8 +23,12 @@ const IS_EMPTY = function (val) {
     return (!val || 0 === val.length);
 };
 
-    window.searchBy = function (param) {
-
+    window.searchBy = function (input, url) {
+        if (input.value.length <= MIN_CHARS_FOR_SEARHCING) {
+            return;
+        }
+        let puppet = new Puppet();
+        puppet.fetch(url + input.value).then(set => populateFoundItems(set, input)).catch(err => err);
     };
 
     window.prepareDataForSending = function () {
@@ -81,7 +86,7 @@ const IS_EMPTY = function (val) {
             return;
         }
         let flow = new Puppet();
-        flow.push('POST', CREATE_NEW_REQUEST ,requestJson).then(e => alert('Заявка успешно создана!\n ' +
+        flow.push(CREATE_NEW_REQUEST ,requestJson).then(e => alert('Заявка успешно создана!\n ' +
             'Вы можете посмотреть все заявки, перейдя по ссылке в меню выше!')).catch(err => alert(err))
 
     };
@@ -206,6 +211,150 @@ const IS_EMPTY = function (val) {
         caution('Выберите тип из списка!',position.id);
         return false;
     };
+
+    window.populateEmployeeByPhone = function (input, dlistId) {
+        let val = input.value;
+
+        if (val.length <= MIN_CHARS_FOR_SEARHCING) {
+            return;
+        }
+
+        let dlist = document.getElementById(dlistId).childNodes;
+
+        Array.from(dlist).filter(d => d.value === val).forEach(d => {
+            let qualification = document.getElementById('qualification');
+            let passport = document.getElementById('passport');
+            let name = document.getElementById('fullname');
+            let position = document.getElementById('position');
+
+            qualification.value = d.getAttribute('qualification');
+            passport.value = d.getAttribute('passport');
+            name.value = d.getAttribute('fullname');
+            position.value = d.getAttribute('position');
+
+            validatePhone(d);
+            validateName(name);
+            validatePassport(passport);
+            validatePosition(position);
+            validateLength(qualification, 0, 100);
+        });
+    };
+
+    window.populateEmployeeName = function (input, dlistId) {
+        let val = input.value;
+
+        if (val.length <= MIN_CHARS_FOR_SEARHCING) {
+            return;
+        }
+
+        let dlist = document.getElementById(dlistId).childNodes;
+
+        Array.from(dlist).filter(d => d.value === val).forEach(d => {
+            let qualification = document.getElementById('qualification');
+            let passport = document.getElementById('passport');
+            let phone = document.getElementById('phone');
+            let position = document.getElementById('position');
+
+            qualification.value = d.getAttribute('qualification');
+            passport.value = d.getAttribute('passport');
+            phone.value = d.getAttribute('phone');
+            position.value = d.getAttribute('position');
+
+            validateName(d);
+            validatePassport(passport);
+            validatePhone(phone);
+            validatePosition(position);
+            validateLength(qualification, 0, 100);
+        });
+    };
+
+    window.populateEmployeePassport = function (input, dlistId) {
+        let val = input.value;
+
+        if (val.length <= MIN_CHARS_FOR_SEARHCING) {
+            return;
+        }
+
+        let dlist = document.getElementById(dlistId).childNodes;
+
+        Array.from(dlist).filter(d => d.value === val).forEach(d => {
+            let qualification = document.getElementById('qualification');
+            let name = document.getElementById('fullname');
+            let phone = document.getElementById('phone');
+            let position = document.getElementById('position');
+
+            qualification.value = d.getAttribute('qualification');
+            name.value = d.getAttribute('fullname');
+            phone.value = d.getAttribute('phone');
+            position.value = d.getAttribute('position');
+
+            validatePassport(d);
+            validateName(name);
+            validatePhone(phone);
+            validatePosition(position);
+            validateLength(qualification, 0, 100);
+        });
+    };
+
+    window.populateFacilityLocation = function (input, dlistId) {
+        let val = input.value;
+
+        if (val.length <= MIN_CHARS_FOR_SEARHCING) {
+            return;
+        }
+
+        let dlist = document.getElementById(dlistId).childNodes;
+
+        Array.from(dlist).filter(d => d.value === val).forEach(d => {
+            let direction = document.getElementById('direction');
+            direction.value = d.getAttribute('direction');
+
+            validateLength(d, 0, 100);
+            validateLength(direction, 0, 150);
+        });
+    };
+
+    window.populateFacilityDirection = function (input, dlistId) {
+        let val = input.value;
+
+        if (val.length <= MIN_CHARS_FOR_SEARHCING) {
+            return;
+        }
+
+        let dlist = document.getElementById(dlistId).childNodes;
+
+        Array.from(dlist).filter(d => d.value === val).forEach(d => {
+            let location = document.getElementById('location');
+            location.value = d.getAttribute('location');
+
+            validateLength(d, 0, 150);
+            validateLength(location, 0, 100);
+        });
+    };
+
+    function populateFoundItems(json, input) {
+        if (input.value.length <= MIN_CHARS_FOR_SEARHCING) {
+            return;
+        }
+
+        let dataList = document.getElementById(input.id + '-data');
+
+        while (dataList.firstChild) {
+            dataList.removeChild(dataList.firstChild);
+        }
+
+        let list = JSON.parse(json);
+
+        // let names = Array.from(list.map(e => e.fullname));
+        list.forEach(e => {
+            let opt = document.createElement('option');
+            Object.keys(e).forEach(j => {
+                opt.setAttribute(j, e[j]);
+            });
+            opt.setAttribute('value', e[input.id]);
+            dataList.appendChild(opt);
+        });
+    }
 
     function validateYear(year) {
         if (year.value >= '2018' && year.value <= '2032') {
