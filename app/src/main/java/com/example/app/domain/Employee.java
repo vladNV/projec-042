@@ -46,7 +46,7 @@ public class Employee {
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
     private List<Trip> trips = new ArrayList<>();
 
-    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "employees", fetch = FetchType.LAZY)
     private List<Facility> facilities = new ArrayList<>();
 
 }

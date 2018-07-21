@@ -2,6 +2,7 @@ package com.example.app.controller;
 
 import com.example.app.model.BusinessTrip;
 import com.example.app.service.TripService;
+import com.example.app.service.exception.UniquieException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -76,7 +77,12 @@ public class BusinessTripController {
             return Result.response(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
-        tripService.createNewBusinessTrip(newBusinessTrip);
+        try {
+            tripService.createNewBusinessTrip(newBusinessTrip);
+        } catch (UniquieException e) {
+            return Result.response(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
         return Result.response(HttpStatus.OK);
     }
 

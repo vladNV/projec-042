@@ -36,4 +36,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<Employee> getEmployeesByPassportNumber(String passport) {
         return ListUtils.emptyIfNull(employeeRepository.findByPassportIgnoreCaseContaining(passport));
     }
+
+    @Override
+    public Employee getByPassport(String passport) {
+        return employeeRepository.findByPassport(passport);
+    }
 }
