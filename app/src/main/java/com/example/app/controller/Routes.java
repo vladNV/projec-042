@@ -14,5 +14,4 @@ public interface Routes {
     String REQUISITION_CREATION = "/business/creation";
     String AMOUNT_OF_BUSINESS_TRIPS = "/business/count";
     String EXPORT_TO_EXCEL = "/business/download";
-
 }
