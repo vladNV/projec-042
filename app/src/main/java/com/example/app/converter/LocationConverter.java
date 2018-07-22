@@ -4,6 +4,9 @@ import com.example.app.domain.Facility;
 import com.example.app.model.Location;
 import org.springframework.lang.NonNull;
 
+/**
+ * Class converter
+ */
 public class LocationConverter {
 
     public static Location toModel(@NonNull Facility facility) {

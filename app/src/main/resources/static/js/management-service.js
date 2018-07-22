@@ -42,7 +42,7 @@ function DATE_IS_EMPTY(date) {
             return;
         }
         let puppet = new Puppet();
-        puppet.fetch(url + input.value).then(set => populateFoundItems(set, input)).catch(err => JSON.parse(err).message);
+        puppet.fetch(url + input.value).then(set => populateFoundItems(set, input)).catch(err => alert(err));
     };
 
     window.prepareDataForSending = function () {
@@ -100,8 +100,8 @@ function DATE_IS_EMPTY(date) {
             return;
         }
         let flow = new Puppet();
-        flow.push(CREATE_NEW_REQUEST ,requestJson).then(e => alert('Заявка успешно создана!\n ' +
-            'Вы можете посмотреть все заявки, перейдя по ссылке в меню выше!')).catch(err => alert(err.message));
+        flow.push(CREATE_NEW_REQUEST, requestJson).then(e => alert('Заявка успешно создана!\n ' +
+            'Вы можете посмотреть все заявки, перейдя по ссылке в меню выше!')).catch(err => alert(err));
     };
 
     window.dateTime = function (id) {

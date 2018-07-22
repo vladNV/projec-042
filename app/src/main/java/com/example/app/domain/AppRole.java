@@ -1,5 +1,8 @@
 package com.example.app.domain;
 
+/**
+ * Application roles
+ */
 public enum AppRole {
 
     GUEST("GUEST"),

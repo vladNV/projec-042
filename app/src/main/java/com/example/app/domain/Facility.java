@@ -45,11 +45,17 @@ public class Facility {
     @Column(name = "direction", nullable = false, length = 45)
     private String direction;
 
-    @OneToMany (mappedBy = "facility", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "facility", fetch = FetchType.LAZY)
     private List<EmployeeFacility> employeeFacilities = new ArrayList<>();
 
+    @OneToMany(mappedBy = "facility", fetch = FetchType.LAZY)
+    private List<Trip> trips = new ArrayList<>();
+
     public static Facility of(String title, String direction) {
-        return new Facility(null, title, direction, null);
+        Facility facility = new Facility();
+        facility.setDirection(direction);
+        facility.setTitle(title);
+        return facility;
     }
 
 }

@@ -6,6 +6,9 @@ import com.example.app.model.BusinessTrip;
 
 import java.util.Optional;
 
+/**
+ * Converter class, just convertes one object to others
+ */
 public class BusinessTripConverter {
     public static BusinessTrip setTrip(BusinessTrip businessTrip, Trip trip) {
         businessTrip = Optional.ofNullable(businessTrip).orElse(new BusinessTrip());

@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.time.LocalDateTime;
 
 @Entity
@@ -34,14 +35,18 @@ public class BusinessTripView {
     private String qualification;
 
     @Column(name = "requesition_id")
+    @Transient
     private Long requestId;
 
+    @Transient
     private String description;
 
     @Column(name = "from_date")
+    @Transient
     private LocalDateTime from;
 
     @Column(name = "till_date")
+    @Transient
     private LocalDateTime till;
 
     @Column(name = "facility_id")
