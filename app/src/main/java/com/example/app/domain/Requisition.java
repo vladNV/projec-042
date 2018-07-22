@@ -36,4 +36,7 @@ public class Requisition {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "requisition")
+    private Trip trip;
+
 }

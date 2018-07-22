@@ -42,4 +42,8 @@ public class Trip {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "facility_id")
     private Facility facility;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "request_id")
+    private Requisition requisition;
 }
