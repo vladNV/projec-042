@@ -194,7 +194,6 @@ public class BusinessTrip {
         }
     }
 
-    @Deprecated
     public LocalDateTime during() {
         return till
                 .minusYears(from.getYear())

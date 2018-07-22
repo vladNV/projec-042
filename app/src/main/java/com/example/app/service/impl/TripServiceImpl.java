@@ -67,6 +67,7 @@ public class TripServiceImpl implements TripService {
 
         Trip trip = BusinessTripConverter.toTrip(businessTrip);
         saveRelationShipWithTrip(trip, employee);
+        saveRelationShipWithTrip(trip, facility);
         takeTransport(BusinessTripConverter.toTransport(businessTrip), trip);
 
         saveRelationshipWithFacility(facility, employee);
@@ -110,6 +111,10 @@ public class TripServiceImpl implements TripService {
     private void saveRelationShipWithTrip(Trip trip, Employee employee) {
         checkRateNumberForUniqueness(trip.getRateNumber());
         trip.setEmployee(employee);
+    }
+
+    private void saveRelationShipWithTrip(Trip trip, Facility facility) {
+        trip.setFacility(facility);
     }
 
     @Override

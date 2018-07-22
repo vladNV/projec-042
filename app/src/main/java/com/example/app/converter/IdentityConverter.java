@@ -3,6 +3,9 @@ package com.example.app.converter;
 import com.example.app.domain.Identity;
 import org.springframework.util.Assert;
 
+/**
+ * Class converter
+ */
 public class IdentityConverter {
 
     @Deprecated

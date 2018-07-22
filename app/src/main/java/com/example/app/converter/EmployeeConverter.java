@@ -4,6 +4,9 @@ import com.example.app.domain.Employee;
 import com.example.app.model.EmployeeModel;
 import org.springframework.lang.NonNull;
 
+/**
+ * Class Converter
+ */
 public class EmployeeConverter {
 
     public static EmployeeModel toModel(@NonNull Employee employee) {
