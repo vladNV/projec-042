@@ -64,14 +64,17 @@ public class TripServiceImpl implements TripService {
     public void createNewBusinessTrip(@NonNull BusinessTrip businessTrip) {
         Employee employee = getStoredEmployeeOrElseNew(BusinessTripConverter.toEmployee(businessTrip));
         Facility facility = getStoredFacility(BusinessTripConverter.toFacility(businessTrip));
+        Requisition requisition = BusinessTripConverter.toRequisition(businessTrip);
+
 
         Trip trip = BusinessTripConverter.toTrip(businessTrip);
         saveRelationShipWithTrip(trip, employee);
         saveRelationShipWithTrip(trip, facility);
+        saveRelationShipWithTrip(trip, requisition);
         takeTransport(BusinessTripConverter.toTransport(businessTrip), trip);
 
         saveRelationshipWithFacility(facility, employee);
-        saveRelationshipWithRequestion(BusinessTripConverter.toRequisition(businessTrip), employee);
+        saveRelationshipWithRequestion(requisition, employee);
 
         createNewTrip(trip);
     }
@@ -116,6 +119,11 @@ public class TripServiceImpl implements TripService {
     private void saveRelationShipWithTrip(Trip trip, Facility facility) {
         trip.setFacility(facility);
     }
+
+    private void saveRelationShipWithTrip(Trip trip, Requisition requisition) {
+        trip.setRequisition(requisition);
+    }
+
 
     @Override
     public void createNewTrip(@NonNull Trip trip) {

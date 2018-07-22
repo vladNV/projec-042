@@ -34,19 +34,15 @@ public class BusinessTripView {
     private Integer position;
     private String qualification;
 
-    @Column(name = "requesition_id")
-    @Transient
+    @Column(name = "request_id")
     private Long requestId;
 
-    @Transient
     private String description;
 
     @Column(name = "from_date")
-    @Transient
     private LocalDateTime from;
 
     @Column(name = "till_date")
-    @Transient
     private LocalDateTime till;
 
     @Column(name = "facility_id")
